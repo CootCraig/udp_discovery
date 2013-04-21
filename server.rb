@@ -9,14 +9,17 @@ class Listener
   include Celluloid::IO
 
   def initialize
+    @hostname = (`hostname`).strip
+    @response_message = {:hostname => @hostname}.to_json
     @listen_port = 38018
-    @socket = UDPSocket.new
-    @socket.bind '0.0.0.0',@listen_port
+    @listen_socket = UDPSocket.new
+    @listen_socket.bind '0.0.0.0',@listen_port
+    @respond_socket = UDPSocket.new
     async.listen
   end
   def listen
     loop do
-      rcv,addr = @socket.recvfrom 512
+      rcv,addr = @listen_socket.recvfrom 512
       rcv_hash = JSON.parse rcv
       respond_host = addr[2]
       respond_port = rcv_hash['port']
@@ -25,8 +28,7 @@ class Listener
     end
   end
   def respond host,port
-    socket = UDPSocket.new
-    socket.send 'Here I am',0, host,port
+    @respond_socket.send @response_message,0, host,port
   end
 end
 

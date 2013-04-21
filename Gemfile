@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
 
-gem 'celluloid', :git => 'https://github.com/celluloid/celluloid.git'
-gem 'celluloid-io', :git => 'https://github.com/celluloid/celluloid-io.git'
+gem 'celluloid', '= 0.14.0.pre'
+gem 'celluloid-io', '= 0.14.0.pre'
 

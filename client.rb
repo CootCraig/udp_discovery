@@ -25,8 +25,9 @@ class Broadcaster
   def listen
     loop do
       rcv,addr = @listen_socket.recvfrom 512
+      @remote_hostname = (JSON.parse(rcv))['hostname']
       @remote_host = addr[2]
-      puts "remote_host #{@remote_host}"
+      puts "remote_hostname #{@remote_hostname} remote_host #{@remote_host}"
     end
   end
   def broadcast
